@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Premier Data</title>
+
+  <!-- Bokeh -->
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.0.0.min.js"></script>
+
+
+  <!-- https://cdn.bokeh.org/bokeh/release/bokeh-x.y.z.min.js
+https://cdn.bokeh.org/bokeh/release/bokeh-widgets-x.y.z.min.js
+https://cdn.bokeh.org/bokeh/release/bokeh-tables-x.y.z.min.js
+https://cdn.bokeh.org/bokeh/release/bokeh-api-x.y.z.min.js -->
+  
+{{ script|safe }}
+
+  <!-- MDB icon -->
+  <link rel="icon" href="static/img/mdb-favicon.ico" type="image/x-icon">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="static/css/mdb.min.css">
+  <!-- MDBootstrap Datatables  -->
+  <link href="static/css/addons/datatables.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!--Navbar -->
+<!-- <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color fixed-top"> -->
+  <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color fixed-top">
+  <a class="navbar-brand" href="#">Premier Data</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li> -->
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Dropdown
+        </a>
+        <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li> -->
+    </ul>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item">
+        <a class="nav-link waves-effect waves-light">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-effect waves-light">
+          <i class="fab fa-google-plus-g"></i>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-default"
+          aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Account</a>
+          <a class="dropdown-item" href="#">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--/.Navbar -->
+
+
+  <!-- Start your project here-->  
+  <!-- {{ plot }} -->
+
+
+  <!-- When generating HTML from templates, there’s always a risk that a variable will include characters that affect the resulting HTML. -->
+  <br> <br> <br> <br>
+
+  <!-- {{ div|safe }} -->
+
+  <div id="container" class="player-averages">
+    <p>This app continually queries a SQL database and displays updated information on player averages within GFNL.</p>
+    <div class="row">
+        <div class="averages-table col-md-8">
+          <h2>Player Averages</h2>
+
+          <table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-sm " cellspacing="0"
+          width="100%">
+          <thead>
+            <tr>
+              <!-- Player, Team, Games, One_Percenters, _50_Penalty, B50_Tackle_Eff, B50_Tackle_Ineff, Blocks, Chase, CL_Ball_Up, CL_Centre, CL_Throw_Ins, Deep_50_Entry, Deep_50_Mark, Deep_50_Rebound, Deep_Inside_50, Disp_Count, Eff_Tack, F50_Tackle_Eff, F50_Tackle_Ineff, FP, Free_Against, Free_For, Handball_Eff, Handball_Ineff, Handball_Receive, Hard_Ball_Get, Hit_Out, Hit_Out_To_Advant, Ineff_Tack, Intercept_Mark, Intercept_Pos, Kick_Eff, Kick_Ineff, Loose_Ball_Get, Mark_Cont, Mark_Uncont, Mid_Tackle_Eff, Mid_Tackle_Ineff, Out_Of_Bounds, Pos_Cont, Score_Behind, Score_Goal, Score_Rush_Behind, Shallow_50, Shallow_50_Mark, Shallow_50_Rebound, Shallow_Inside_50, Shallow_Rebound, Smother, Spoil, Turnover_BCK, Turnover_FWD, Turnover_MID): -->
+              <th>Player</th>
+              <th>Team</th>
+              <th>Games</th>
+              <th>One Percenters</th>
+              <th>50 Penalty</th>
+              <th>B50 Tackel Eff</th>
+              <th>B50 Tackle Ineff</th>
+              <th>Blocks</th>
+              <th>Chase</th>
+              <th>CL Ball Up</th>
+              <th>CL Centre</th>
+              <th>CL Throw Ins</th>
+              <th>Deep 50 Entry</th>
+              <th>Deep 50 Mark</th>
+              <th>Deep 50 Rebound</th>
+              <th>Deep Inside 50</th>
+              <th>Disp Count</th>
+              <th>Eff Tack</th>
+              <th>F50 Tack Eff</th>
+              <th>F50 Tack Ineff</th>
+              <th>FP</th>
+              <th>Free Against</th>
+              <th>Free For</th>
+              <th>Handball Eff</th>
+              <th>Handball Ineff</th>
+              <th>Handball Receive</th>
+              <th>Hardball Get</th>
+              <th>Hit Out</th>
+              <th>Hit Out To Adv</th>
+              <th>Ineff Tackle</th>
+              <th>Intercept Mark</th>
+              <th>Intercept Pos</th>
+              <th>Kick Eff</th>
+              <th>Kick Ineff</th>
+              <th>Loose Ball Get</th>
+              <th>Mark Cont</th>
+              <th>Mark Uncont</th>
+              <th>Mid Tackle Eff</th>
+              <th>Mid Tackle Ineff</th>
+              <th>Out of bounds</th>
+              <th>Pos Cont</th>
+              <th>Score Behind</th>
+              <th>Score Goal</th>
+              <th>Score Rush Behind</th>
+              <th>Shallow 50</th>
+              <th>Shallow 50 Mark</th>
+              <th>Shallow 50 Rebound</th>
+              <th>Shallow Inside 50</th>
+              <th>Shallow Rebound</th>
+              <th>Smother</th>
+              <th>Spoil</th>
+              <th>Turnover BCK</th>
+              <th>Turnover FWD</th>
+              <th>Turnover MID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in players %}
+            <tr>
+              <td class="first-col">{{ player['Player'] }}</td>
+              <td>{{ player['Team'] }}</td>
+              <td>{{ player['Games'] }}</td>
+              <td>{{ player['One_Percenters'] }}</td>
+              <td>{{ player['_50_Penalty'] }}</td>
+              <td>{{ player['B50_Tackle_Eff'] }}</td>
+              <td>{{ player['B50_Tackle_Ineff'] }}</td>
+              <td>{{ player['Blocks'] }}</td>
+              <td>{{ player['Chase'] }}</td>
+              <td>{{ player['CL_Ball_Up'] }}</td>
+              <td>{{ player['CL_Centre'] }}</td>
+              <td>{{ player['CL_Throw_Ins'] }}</td>
+              <td>{{ player['Deep_50_Entry'] }}</td>
+              <td>{{ player['Deep_50_Mark'] }}</td>
+              <td>{{ player['Deep_50_Rebound'] }}</td>
+              <td>{{ player['Deep_Inside_50'] }}</td>
+              <td>{{ player['Disp_Count'] }}</td>
+              <td>{{ player['Eff_Tack'] }}</td>
+              <td>{{ player['F50_Tackle_Eff'] }}</td>
+              <td>{{ player['F50_Tackle_Ineff'] }}</td>
+              <td>{{ player['FP'] }}</td>
+              <td>{{ player['Free_Against'] }}</td>
+              <td>{{ player['Free_For'] }}</td>
+              <td>{{ player['Handball_Eff'] }}</td>
+              <td>{{ player['Handball_Ineff'] }}</td>
+              <td>{{ player['Handball_Receive'] }}</td>
+              <td>{{ player['Hard_Ball_Get'] }}</td>
+              <td>{{ player['Hit_Out'] }}</td>
+              <td>{{ player['Hit_Out_To_Advant'] }}</td>
+              <td>{{ player['Ineff_Tack'] }}</td>
+              <td>{{ player['Intercept_Mark'] }}</td>
+              <td>{{ player['Intercept_Pos'] }}</td>
+              <td>{{ player['Kick_Eff'] }}</td>
+              <td>{{ player['Kick_Ineff'] }}</td>
+              <td>{{ player['Loose_Ball_Get'] }}</td>
+              <td>{{ player['Mark_Cont'] }}</td>
+              <td>{{ player['Mark_Uncont'] }}</td>
+              <td>{{ player['Mid_Tackle_Eff'] }}</td>
+              <td>{{ player['Mid_Tackle_Ineff'] }}</td>
+              <td>{{ player['Out_Of_Bounds'] }}</td>
+              <td>{{ player['Pos_Cont'] }}</td>
+              <td>{{ player['Score_Behind'] }}</td>
+              <td>{{ player['Score_Goal'] }}</td>
+              <td>{{ player['Score_Rush_Behind'] }}</td>
+              <td>{{ player['Shallow_50'] }}</td>
+              <td>{{ player['Shallow_50_Mark'] }}</td>
+              <td>{{ player['Shallow_50_Rebound'] }}</td>
+              <td>{{ player['Shallow_Inside_50'] }}</td>
+              <td>{{ player['Shallow_Rebound'] }}</td>
+              <td>{{ player['Smother'] }}</td>
+              <td>{{ player['Spoil'] }}</td>
+              <td>{{ player['Turnover_BCK'] }}</td>
+              <td>{{ player['Turnover_FWD'] }}</td>
+              <td>{{ player['Turnover_MID'] }}</td>  
+            </tr>
+            {% endfor  %}
+            
+            </tbody>
+          </table>
+          <!-- type="submit" tells form to execute get request to /export_csv -->
+          <form action="/export_csv">
+            <button type="submit" class="btn btn-info">Export CSV</button>
+          </form>
+      </div>
+
+      <div class="histogram col-md-4">
+        <br> <br>
+        {{ div|safe }} 
+      </div>
+    </div>
+  </div>
+
+<!-- tag to load to -->
+<a id="comparison"></a>
+
+<section id="comparison">
+  <br> <br> <br>
+<div class="player-comparison" style="margin-left: 25px; margin-right: 25x;">
+  <h2>Player Comparisons</h2>
+  <p>Choose 2 players to compare stats with</p>
+  <form action="/comparison">
+    <div class="form-row align-items-center">
+      <div class="col-auto my-1">
+        <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+        
+        <select name="Player1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+          <option selected>Player1</option>
+          {% for name in player_names %}
+          <option> {{ name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-auto my-1">
+        <select name="Player2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+          <option selected>Player2</option> <!-- <option selected disabled="true">Player2</option> (get request doesn't work with this option)-->
+          {% for name in player_names %}
+          <option> {{ name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary">Compare</button>
+      </div>
+    </div>
+  </form>
+
+  {% if player1_data and player2_data %}
+  <table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-sm " cellspacing="0"
+  width="100%">
+    <thead>
+      <!-- style="background-color: greenyellow;" -->
+
+      <tr>
+        <th>{{ player1_data['Player'] }}</th>
+        <th>Attributes</th>
+        <th>{{ player2_data['Player'] }}</th>
+      <tr>
+    <thead>
+    
+    <tbody>
+      
+      {% for k1, v1 in player1_data.items() %} 
+        {% if k1 != 'Player' %} <!-- Skip 'Player' column-->
+        
+        <!-- if player1 greater than -->
+        {% if v1 > player2_data[k1] %}  <!-- highlight greater cell-->
+          <tr>
+            <td style="background-color: greenyellow;" >{{ v1 }}</td>
+            <td style="text-align: center"> {{ k1 }}</td>
+            <td>{{ player2_data[k1] }}</td>
+          <tr>
+
+        <!-- if player1 less than -->
+        {% elif v1 < player2_data[k1] %}
+          <tr>
+            <td>{{ v1 }}</td>
+            <td style="text-align: center"> {{ k1 }}</td>
+            <td style="background-color: greenyellow;">{{ player2_data[k1] }}</td>
+          <tr>
+
+        <!-- {% elif v1 == str %}
+        <tr>
+          <td> {{ k1 }}</td>
+          <td>{{ v1 }}</td>
+          <td>{{ player2_data[k1] }}</td>
+        <tr> -->
+
+        {% else %}
+          <tr>
+            <td>{{ v1 }}</td>
+            <td style="text-align: center"> {{ k1 }}</td>
+            <td>{{ player2_data[k1] }}</td>
+          <tr>
+
+        {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+
+
+
+
+
+
+
+      <!-- <tr>
+        <td>Team</td>
+        <td>{{ player1_data['Team'] }}</td>
+        <td>{{ player2_data['Team'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Games</td>
+        <td> {{ player1_data['Games'] }} </td> 
+        <td> {{ player2_data['Games'] }} </td>
+      <tr>
+
+      <tr>
+        <td>One Percenters</td>
+        <td>{{ player1_data['One_Percenters'] }}</td>
+        <td>{{ player2_data['One_Percenters'] }}</td>
+      <tr>
+
+      <tr>
+        <td>50 Penalty</td>
+        <td>{{ player1_data['_50_Penalty'] }}</td>
+        <td>{{ player2_data['_50_Penalty'] }}</td>
+      <tr>
+
+      <tr>
+        <td>B50 Tackle Eff</td>
+        <td>{{ player1_data['B50_Tackle_Eff'] }}</td>
+        <td>{{ player2_data['B50_Tackle_Eff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>B50 Tackel Ineff</td>
+        <td>{{ player1_data['B50_Tackle_Ineff'] }}</td>
+        <td>{{ player2_data['B50_Tackle_Ineff'] }}</td>
+      <tr>
+      
+      <tr>
+        <td>Blocks</td>
+        <td>{{ player1_data['Blocks'] }}</td>
+        <td>{{ player2_data['Blocks'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Chase</td>
+        <td>{{ player1_data['Chase'] }}</td>
+        <td>{{ player2_data['Chase'] }}</td>
+      <tr>
+
+      <tr>
+        <td>CL Ball Up</td>
+        <td>{{ player1_data['CL_Ball_Up'] }}</td>
+        <td>{{ player2_data['CL_Ball_Up'] }}</td>
+      <tr>
+
+      <tr>
+        <td>CL Centre</td>
+        <td>{{ player1_data['CL_Centre'] }}</td>
+        <td>{{ player2_data['CL_Centre'] }}</td>
+      <tr>
+
+      <tr>
+        <td>CL Throw Ins</td>
+        <td>{{ player1_data['CL_Throw_Ins'] }}</td>
+        <td>{{ player2_data['CL_Throw_Ins'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Deep 50 Entry</td>
+        <td>{{ player1_data['Deep_50_Entry'] }}</td>
+        <td>{{ player2_data['Deep_50_Entry'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Deep 50 Mark</td>
+        <td>{{ player1_data['Deep_50_Mark'] }}</td>
+        <td>{{ player2_data['Deep_50_Mark'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Deep 50 Rebound</td>
+        <td>{{ player1_data['Deep_50_Rebound'] }}</td>
+        <td>{{ player2_data['Deep_50_Rebound'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Deep Inside 50</td>
+        <td>{{ player1_data['Deep_Inside_50'] }}</td>
+        <td>{{ player2_data['Deep_Inside_50'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Disp Count</td>
+        <td>{{ player1_data['Disp_Count'] }}</td>
+        <td>{{ player2_data['Disp_Count'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Eff Tackle</td>
+        <td>{{ player1_data['Eff_Tack'] }}</td>
+        <td>{{ player2_data['Eff_Tack'] }}</td>
+      <tr>
+
+      <tr>
+        <td>F50 Tackle Eff</td>
+        <td>{{ player1_data['F50_Tackle_Eff'] }}</td>
+        <td>{{ player2_data['F50_Tackle_Eff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>F50 Tackel Ineff</td>
+        <td>{{ player1_data['F50_Tackle_Ineff'] }}</td>
+        <td>{{ player2_data['F50_Tackle_Ineff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>FP</td>
+        <td>{{ player1_data['FP'] }}</td>
+        <td>{{ player2_data['FP'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Free Against</td>
+        <td>{{ player1_data['Free_Against'] }}</td>
+        <td>{{ player2_data['Free_Against'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Free For</td>
+        <td>{{ player1_data['Free_For'] }}</td>
+        <td>{{ player2_data['Free_For'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Handball Eff</td>
+        <td>{{ player1_data['Handball_Eff'] }}</td>
+        <td>{{ player2_data['Handball_Eff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Handball Ineff</td>
+        <td>{{ player1_data['Handball_Ineff'] }}</td>
+        <td>{{ player2_data['Handball_Ineff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Handball Receive</td>
+        <td>{{ player1_data['Handball_Receive'] }}</td>
+        <td>{{ player2_data['Handball_Receive'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Hard Ball Get</td>
+        <td>{{ player1_data['Hard_Ball_Get'] }}</td>
+        <td>{{ player2_data['Hard_Ball_Get'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Hit Out</td>
+        <td>{{ player1_data['Hit_Out'] }}</td>
+        <td>{{ player2_data['Hit_Out'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Hit Out To Adv</td>
+        <td>{{ player1_data['Hit_Out_To_Advant'] }}</td>
+        <td>{{ player2_data['Hit_Out_To_Advant'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Ineff Tack</td>
+        <td>{{ player1_data['Ineff_Tack'] }}</td>
+        <td>{{ player2_data['Ineff_Tack'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Intercept Mark</td>
+        <td>{{ player1_data['Intercept_Mark'] }}</td>
+        <td>{{ player2_data['Intercept_Mark'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Intercept Pos</td>
+        <td>{{ player1_data['Intercept_Pos'] }}</td>
+        <td>{{ player2_data['Intercept_Pos'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Kick Eff</td>
+        <td>{{ player1_data['Kick_Eff'] }}</td>
+        <td>{{ player2_data['Kick_Eff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Kick Ineff</td>
+        <td>{{ player1_data['Kick_Ineff'] }}</td>
+        <td>{{ player2_data['Kick_Ineff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Loose Ball Get</td>
+        <td>{{ player1_data['Loose_Ball_Get'] }}</td>
+        <td>{{ player2_data['Loose_Ball_Get'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Mark Cont</td>
+        <td>{{ player1_data['Mark_Cont'] }}</td>
+        <td>{{ player2_data['Mark_Cont'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Mark Uncont</td>
+        <td>{{ player1_data['Mark_Uncont'] }}</td>
+        <td>{{ player2_data['Mark_Uncont'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Mid Tackle Eff</td>
+        <td>{{ player1_data['Mid_Tackle_Eff'] }}</td>
+        <td>{{ player2_data['Mid_Tackle_Eff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Mid Tackel Ineff</td>
+        <td>{{ player1_data['Mid_Tackle_Ineff'] }}</td>
+        <td>{{ player2_data['Mid_Tackle_Ineff'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Out Of Bounds</td>
+        <td>{{ player1_data['Out_Of_Bounds'] }}</td>
+        <td>{{ player2_data['Out_Of_Bounds'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Pos Cont</td>
+        <td>{{ player1_data['Pos_Cont'] }}</td>
+        <td>{{ player2_data['Pos_Cont'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Score Behind</td>
+        <td>{{ player1_data['Score_Behind'] }}</td>
+        <td>{{ player2_data['Score_Behind'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Score Goal</td>
+        <td>{{ player1_data['Score_Goal'] }}</td>
+        <td>{{ player2_data['Score_Goal'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Score Rush Behind</td>
+        <td>{{ player1_data['Score_Rush_Behind'] }}</td>
+        <td>{{ player2_data['Score_Rush_Behind'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Shallow 50</td>
+        <td>{{ player1_data['Shallow_50'] }}</td>
+        <td>{{ player2_data['Shallow_50'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Shallow 50 Mark</td>
+        <td>{{ player1_data['Shallow_50_Mark'] }}</td>
+        <td>{{ player2_data['Shallow_50_Mark'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Shallow 50 Rebound</td>
+        <td>{{ player1_data['Shallow_50_Rebound'] }}</td>
+        <td>{{ player2_data['Shallow_50_Rebound'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Shallow Inside 50</td>
+        <td>{{ player1_data['Shallow_Inside_50'] }}</td>
+        <td>{{ player2_data['Shallow_Inside_50'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Shallow Rebound</td>
+        <td>{{ player1_data['Shallow_Rebound'] }}</td>
+        <td>{{ player2_data['Shallow_Rebound'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Smother</td>
+        <td>{{ player1_data['Smother'] }}</td>
+        <td>{{ player2_data['Smother'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Spoil</td>
+        <td>{{ player1_data['Spoil'] }}</td>
+        <td>{{ player2_data['Spoil'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Turnover BCK</td>
+        <td>{{ player1_data['Turnover_BCK'] }}</td>
+        <td>{{ player2_data['Turnover_BCK'] }}</td>
+      <tr>
+
+      <tr>
+        <td>Turnover FWD</td>
+        <td>{{ player1_data['Turnover_FWD'] }}</td>
+        <td>{{ player2_data['Turnover_FWD'] }}</td>
+      <tr>
+
+        <tr>
+          <td>Turnover MID</td>
+          <td>{{ player1_data['Turnover_MID'] }}</td>
+          <td>{{ player2_data['Turnover_MID'] }}</td>
+        <tr> -->
+
+    <tbody>
+
+  </table>
+  {% endif %}
+</div>
+</section>
+
+
+<!-- <button class="btn peach-gradient">Peach</button>
+<button class="btn purple-gradient">Purple</button>
+<button class="btn blue-gradient">Blue</button>
+<button class="btn aqua-gradient">Aqua</button> -->
+  <!-- End your project here-->
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+  <!-- MDBootstrap Datatables  -->
+  <script type="text/javascript" src="static/js/addons/datatables.min.js"></script>
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+
+  <!-- new added bootstrap? -->
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+
+  <script>
+    $(document).ready(function () {
+    $('#dtHorizontalVerticalExample').DataTable({
+    "scrollX": true,
+    "scrollY": 450,
+    });
+    $('.dataTables_length').addClass('bs-select');
+    });
+  </script>
+
+{% if scrollToAnchor %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.location.hash = '#{{ scrollToAnchor }}';
+    });
+</script>
+{% endif %}
+
+</body>
+</html>
